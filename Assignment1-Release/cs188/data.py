@@ -30,8 +30,12 @@ def _extract_tensors(data, num=None, feature=False):
   #after this step, x should be a torch tensor of shape (num, 3, 32, 32)       #
   ##############################################################################
   # Replace "pass" statement with your code
-  
-  #pass
+  if num:
+    x = torch.narrow(torch.from_numpy(data['data']), 0, 0, num)
+    y = torch.narrow(torch.from_numpy(data['labels']), 0, 0, num)
+  else:
+    x = torch.from_numpy(data['data'])
+    y = torch.from_numpy(data['labels'])
  
   ##############################################################################
   #                             END OF YOUR CODE                               #

@@ -1,0 +1,23 @@
+
+cat_to_id = {
+    '/b/bathroom': (16, 0),
+    '/b/bedroom': (18, 1),
+    '/b/bookstore': (20, 2),
+    '/c/classroom': (933, 3),
+    '/d/dining_room': (945, 4),
+    '/f/food_court': (48, 5),
+    '/k/kitchen': (59, 6),
+    '/l/lobby': (63, 7),
+    '/l/living_room': (62, 8),
+    '/o/office': (70, 9),
+    '/b/baseball_field': (15, 10),
+    '/b/bridge': (24, 11),
+    '/c/campsite': (27, 12),
+    '/c/canyon': (29, 13),
+    '/c/coast': (35, 14),
+    '/f/fountain': (49, 15),
+    '/h/highway': (53, 16),
+    '/p/playground': (74, 17),
+    '/m/mountain': (68, 18),
+    '/r/rainforest': (77, 19),
+}

@@ -28,9 +28,9 @@ def linear(X, W, b):
     ###########################################################################
     # TODO: Implement the linear function
     ###########################################################################
-    # Replace "pass" statement with your code
-
-    # pass    
+    N = X.size(dim=0)
+    y_pred = torch.zeros((N, 1), device='cuda')
+    y_pred = torch.matmul(X, W) + b
 
     ###########################################################################
     #                           END OF YOUR CODE                              #
@@ -51,10 +51,7 @@ def sigmoid(y_pred):
     ###########################################################################
     # TODO: Implement the sigmoid function
     ###########################################################################
-    # Replace "pass" statement with your code
-
-    # pass   
-
+    s = 1 / (1 + torch.exp(torch.neg(y_pred)))
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################      
@@ -74,10 +71,9 @@ def softmax(y_pred):
     ###########################################################################
     # TODO: Implement the softmax function
     ###########################################################################
-    # Replace "pass" statement with your code
-
-    # pass   
-
+    ex = torch.exp(y_pred)
+    denom = ex.sum(1, keepdim=True)
+    s = ex / denom
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################  
@@ -113,11 +109,11 @@ class LinearRegression():
     # wrote above for computing the output of linear regression               #
     # The three chanels should be resized/flatterned to construct 3072-dim    #
     # features for each image.                                                #
-    ###########################################################################
-    
-    # Replace "pass" statement with your code
-    # pass
+    ########################################################################### 
 
+    N = X.size(dim=0)
+    x = X.reshape(N, 3072)
+    y_pred = linear(x, self.W, self.b)
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################
@@ -139,12 +135,13 @@ class LinearRegression():
     # The three chanels should be resized/flatterned to construct 3072-dim    #
     # features for each image.                                                #
     # hint: use torch.linalg.inv to get the inverse, use t() to get transpose #
-    
     ###########################################################################
-    
-    # Replace "pass" statement with your code
-    # pass
-
+    N = X.size(dim=0)
+    x = X.reshape(N, 3072)
+    a = torch.inverse(torch.matmul(x.t(), x))
+    c = torch.matmul(x.t(), y.float())
+    b = torch.matmul(a, c)
+    self.W = b
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################
@@ -165,8 +162,7 @@ class LinearRegression():
     # TODO: Implement the mean square loss which measures the average of the  #
     # squares of the errors between prediction scores and ground-truth labels #
     ###########################################################################
-    # Replace "pass" statement with your code
-    #pass
+    loss = y_pred.sub(Y).square().mean()
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################  
@@ -236,9 +232,9 @@ class LogisticRegression():
     # The three chanels should be resized/flatterned to construct 3072-dim    #
     # features for each image.                                                #
     ###########################################################################
-    # Replace "pass" statement with your code
-    # pass
-
+    N = X.size(dim=0)
+    x = X.reshape(N, 3072)
+    y_pred = sigmoid(linear(x, self.W, self.b))
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################
@@ -259,10 +255,18 @@ class LogisticRegression():
     ###########################################################################
     # TODO: Implement the cross entropy loss                                  #
     ###########################################################################
-    # Replace "pass" statement with your code
-        
-    # pass
-
+    Y = Y.float()
+    N = y_pred.shape[0]
+    s = 0
+    # for i in range(N):
+    #   a = -torch.log(y_pred[i])
+    #   b = -torch.log(1 - y_pred[i])
+    #   c = a if Y[i] == 1 else b
+    #   s += c.item()
+    # loss = s / N
+    p1 = torch.matmul(Y, torch.log(y_pred))
+    p2 = torch.matmul((1 - Y), torch.log(1 - y_pred))
+    loss = -(p1 + p2) / N
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################  
@@ -332,9 +336,9 @@ class SoftmaxRegression():
     # The three chanels should be resized/flatterned to construct 3072-dim    #
     # features for each image.                                                #
     ###########################################################################
-    # Replace "pass" statement with your code
-    # pass
-
+    N = X.size(dim=0)
+    x = X.reshape(N, 3072)
+    y_pred = softmax(linear(x, self.W, self.b))
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################
@@ -358,10 +362,11 @@ class SoftmaxRegression():
     # hint: use torch.eye() to encode the target labels  (num, ) into one-hot #
     #labels (num, 20)                                                         #
     ###########################################################################
-    # Replace "pass" statement with your code
-        
-    # pass
-
+    N = Y.shape[0]
+    one = torch.index_select(torch.eye(y_pred.shape[1], device='cuda'), 0, Y)
+    res = y_pred * one
+    nonzero = res != 0
+    loss = torch.sum(-torch.log(res[nonzero]))/N
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################  
