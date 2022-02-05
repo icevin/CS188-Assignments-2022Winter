@@ -6,7 +6,7 @@ Welcome to CS188 Assignment2.
 * You will implement CNN with built-in modules / from scratch.(20 pts)
 * You will come up with your own model for a test leaderboard.(25 pts)
 
-Before you start, you should zip your MiniPlaces images folder, and upload images.zip to your assignment folder in Google Drive. You should also put train.txt and val.txt from the last assignment to the assignment folder.
+Before you start, you should zip your MiniPlaces images folder, and upload images.zip to your assignment folder in Google Drive. (Update: use https://drive.google.com/file/d/1dIJtApaupb4-Wrz3FUYuSgL--THGkQ7j/view?usp=sharing for faster decompressing process). You should also put train.txt and val.txt from the last assignment to the assignment folder.
 The google colab notebook will help you go through the assignments.
 
 Good luck!

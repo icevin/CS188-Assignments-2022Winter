@@ -179,7 +179,7 @@ class FastConv(nn.Module):
         #####################################################################################
 
     def forward(self, x):
-        """flow: 1st convolutional layer -> relu -> 2nd convolutional layer -> max pool along dim 2 -> dropout 1 -> flatten -> fully connected 1 -> relu -> dropout 2 -> fully connected 2
+        """flow: 1st convolutional layer -> relu -> 2nd convolutional layer -> max pool kernel 2 -> dropout 1 -> flatten -> fully connected 1 -> relu -> dropout 2 -> fully connected 2
         You should also return the output of the first convolutional layer (x1) and the output of the second convolutional layer (x2)
         """
         x1, x2 = None, None
